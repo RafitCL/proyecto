@@ -1,0 +1,380 @@
+/* ============================================================
+   ESTILOS GLOBALES — CSS puro, sin librerías externas.
+   Organización: reset -> variables -> layout -> componentes -> responsive.
+   ============================================================ */
+
+/* --- Reset suave: evita que el navegador añada márgenes raros --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* padding y border NO suman al ancho total */
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Variables CSS: un solo lugar para la paleta azul. --- */
+:root {
+  --azul-900: #0f2f5c;
+  --azul-700: #1d4ed8;
+  --azul-600: #2563eb;
+  --azul-100: #dbeafe;
+  --azul-50: #eff6ff;
+  --gris-700: #374151;
+  --gris-400: #9ca3af;
+  --gris-100: #f3f4f6;
+  --blanco: #ffffff;
+  --rojo: #dc2626;
+  --verde: #16a34a;
+  --naranja: #ea580c;
+  --sombra: 0 4px 14px rgba(15, 47, 92, 0.12);
+  --radio: 10px;
+}
+
+html {
+  /* rem = escala relativa al documento => accesibilidad si el usuario
+     aumenta el tamaño de fuente del navegador. */
+  font-size: 16px;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Degradado sutil en azul: coherencia cromática con la app */
+  background: linear-gradient(180deg, var(--azul-50) 0%, var(--gris-100) 100%);
+  color: var(--gris-700);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* --- Layout principal --- */
+.contenedor {
+  max-width: 780px; /* ancho de lectura cómodo */
+  margin: 0 auto; /* centrado horizontal */
+  padding: 24px 16px 48px;
+}
+
+.cabecera {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.cabecera h1 {
+  color: var(--azul-900);
+  font-size: clamp(1.6rem, 5vw, 2.3rem); /* tipografía fluida */
+  margin-bottom: 6px;
+}
+
+.contador {
+  display: inline-block;
+  background: var(--azul-100);
+  color: var(--azul-900);
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 999px; /* píldora */
+}
+
+/* --- Tarjetas genéricas (formulario y tareas comparten estilo base) --- */
+.tarjeta-formulario,
+.lista-tareas > .tarjeta-tarea {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.tarjeta-formulario {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.tarjeta-formulario h2 {
+  color: var(--azul-900);
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+}
+
+/* --- Formularios --- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--azul-900);
+}
+
+input,
+textarea,
+select {
+  font: inherit; /* hereda tipografía del body */
+  padding: 10px 12px;
+  border: 1px solid var(--gris-400);
+  border-radius: var(--radio);
+  background: var(--blanco);
+  color: var(--gris-700);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea {
+  resize: vertical; /* permite solo cambiar alto, no ancho */
+}
+
+/* Focus visible: clave para navegar con teclado (accesibilidad) */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--azul-600);
+  box-shadow: 0 0 0 3px var(--azul-100);
+}
+
+/* --- Botones --- */
+.boton {
+  font: inherit;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radio);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.15s ease;
+}
+
+.boton:hover {
+  filter: brightness(1.08);
+}
+
+/* :active simula "hundirse" al hacer clic */
+.boton:active {
+  transform: translateY(1px);
+}
+
+.boton-primario {
+  width: 100%;
+  background: var(--azul-600);
+  color: var(--blanco);
+}
+
+.boton-secundario {
+  background: var(--gris-100);
+  color: var(--gris-700);
+}
+
+.boton-mini {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  background: var(--azul-50);
+  color: var(--azul-700);
+  border: 1px solid var(--azul-100);
+}
+
+.boton-peligro {
+  background: #fee2e2;
+  color: var(--rojo);
+  border-color: #fecaca;
+}
+
+/* --- Barra de filtros: flex para que se adapte al ancho --- */
+.barra-filtros {
+  display: flex;
+  gap: 12px;
+  background: var(--blanco);
+  padding: 16px;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* en móvil los campos pasan a otra línea */
+}
+
+.campo-busqueda {
+  flex: 2 1 240px; /* crece más que el select */
+}
+
+.campo-estado {
+  flex: 1 1 150px;
+}
+
+/* --- Estados de carga / vacío / error --- */
+.cargando,
+.lista-vacia {
+  text-align: center;
+  padding: 28px 12px;
+  color: var(--azul-700);
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  font-weight: 600;
+}
+
+.alerta-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--rojo);
+  padding: 12px 16px;
+  border-radius: var(--radio);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.mensaje-error {
+  background: #fef2f2;
+  color: var(--rojo);
+  border: 1px solid #fecaca;
+  padding: 8px 12px;
+  border-radius: var(--radio);
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+/* --- Lista de tareas --- */
+.lista-tareas {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tarjeta-tarea {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border-left: 4px solid var(--azul-600); /* acento lateral azul */
+  transition: opacity 0.2s ease;
+}
+
+/* Tarea completada: se atenúa el contenido completo */
+.tarjeta-tarea.completada {
+  opacity: 0.65;
+  border-left-color: var(--verde);
+}
+
+.checkbox-tarea {
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+  accent-color: var(--azul-600); /* color nativo del check */
+  cursor: pointer;
+  flex-shrink: 0; /* que no se comprima con flex */
+}
+
+.contenido-tarea {
+  flex: 1; /* ocupa el espacio restante */
+  min-width: 0; /* permite que textos largos hagan wrap */
+}
+
+.fila-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fila-titulo h3 {
+  font-size: 1.02rem;
+  color: var(--azul-900);
+  word-break: break-word;
+}
+
+.tachado {
+  text-decoration: line-through;
+  color: var(--gris-400);
+}
+
+.descripcion {
+  font-size: 0.92rem;
+  color: var(--gris-700);
+  margin-top: 4px;
+}
+
+.pie-tarea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.fecha {
+  color: var(--gris-400);
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+/* --- Badge de prioridad: colores semánticos --- */
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.prioridad-alta {
+  background: #fee2e2;
+  color: var(--rojo);
+}
+
+.prioridad-media {
+  background: #ffedd5;
+  color: var(--naranja);
+}
+
+.prioridad-baja {
+  background: #dcfce7;
+  color: var(--verde);
+}
+
+/* --- Edición en línea --- */
+.edicion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.botones-edicion {
+  display: flex;
+  gap: 8px;
+}
+
+/* --- Pie de página --- */
+.pie {
+  text-align: center;
+  margin-top: 32px;
+  color: var(--gris-400);
+}
+
+/* ============================================================
+   RESPONSIVE: un solo punto de quiebre para pantallas pequeñas.
+   ============================================================ */
+@media (max-width: 560px) {
+  .contenedor {
+    padding: 16px 12px 32px;
+  }
+
+  .barra-filtros {
+    flex-direction: column; /* los campos se apilan */
+  }
+
+  .campo-busqueda,
+  .campo-estado {
+    flex: 1 1 auto;
+  }
+
+  .pie-tarea {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
